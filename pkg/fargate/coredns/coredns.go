@@ -119,6 +119,9 @@ func scheduleOnFargate(clientSet kubeclient.Interface) error {
 	if err != nil {
 		return err
 	}
+	if coredns.Spec.Template.Annotations == nil {
+		coredns.Spec.Template.Annotations = make(map[string]string)
+	}
 	coredns.Spec.Template.Annotations[ComputeTypeAnnotationKey] = computeTypeFargate
 	bytes, err := runtime.Encode(unstructured.UnstructuredJSONScheme, coredns)
 	if err != nil {
